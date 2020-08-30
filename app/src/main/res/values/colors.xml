@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="colorRipple">?android:colorControlHighlight</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="black">#000000</color>
+    <color name="black_50">#80000000</color>
+    <color name="white">#ffffff</color>
+    <color name="white_transparent_80">#CCFFFFFF</color>
+    <color name="light_1_f8f9fa">#f8f9fa</color>
+    <color name="light_2_f1f3f5">#f1f3f5</color>
+    <color name="light_3_e9ecef">#e9ecef</color>
+    <color name="light_4_dee2e6">#dee2e6</color>
+    <color name="light_5_ced4da">#ced4da</color>
+    <color name="light_6_adb5bd">#adb5bd</color>
+    <color name="dark_4_868e96">#868e96</color>
+    <color name="dark_3_535353">#535353</color>
+    <color name="dark_2_495057">#495057</color>
+    <color name="dark_1_212529">#212529</color>
+    <color name="red_1_ffeae5">#ffeae5</color>
+    <color name="red_2_ffd5cc">#ffd5cc</color>
+    <color name="red_3_ffbfb2">#ffbfb2</color>
+    <color name="red_4_ff7f66">#ff7f66</color>
+    <color name="red_5_ff5433">#ff5433</color>
+    <color name="red_6_ff2900">#ff2900</color>
+    <color name="red_7_da2b0a">#da2b0a</color>
+    <color name="red_8_a3250d">#a3250d</color>
+    <color name="yellow_1_ffd164">#ffd164</color>
+    <color name="yellow_2_ffbe07">#ffbe07</color>
+    <color name="yellow_3_ffa807">#ffa807</color>
+    <color name="error_1_ff6b6b">#ff6b6b</color>
+    <color name="blue_1_f3faff">#f3faff</color>
+    <color name="blue_2_e7f5ff">#e7f5ff</color>
+    <color name="blue_3_d0ebff">#d0ebff</color>
+    <color name="blue_4_a5d8ff">#a5d8ff</color>
+    <color name="blue_5_228be6">#228be6</color>
+    <color name="blue_6_1864ab">#1864ab</color>
+</resources>

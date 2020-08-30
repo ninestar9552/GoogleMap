@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<resources>
+    <dimen name="list_item_spacing">16dp</dimen>
+    <dimen name="list_item_spacing_half">8dp</dimen>
+
+    <dimen name="text_size_heading_1">36sp</dimen>
+    <dimen name="text_size_heading_2">28sp</dimen>
+    <dimen name="text_size_heading_3">24sp</dimen>
+    <dimen name="text_size_heading_4">20sp</dimen>
+    <dimen name="text_size_heading_5">16sp</dimen>
+
+    <dimen name="text_size_subtitle_1">18sp</dimen>
+    <dimen name="text_size_subtitle_2">14sp</dimen>
+    <dimen name="text_size_subtitle_3">14sp</dimen>
+
+    <dimen name="text_size_button_1">16sp</dimen>
+    <dimen name="text_size_button_2">16sp</dimen>
+    <dimen name="text_size_button_3">14sp</dimen>
+    <dimen name="text_size_button_4">14sp</dimen>
+    <dimen name="text_size_button_5">13sp</dimen>
+
+    <dimen name="text_size_caption_1">12sp</dimen>
+
+    <dimen name="text_size_text_1">16sp</dimen>
+    <dimen name="text_size_text_2">14sp</dimen>
+    <dimen name="text_size_text_3">12sp</dimen>
+</resources>
