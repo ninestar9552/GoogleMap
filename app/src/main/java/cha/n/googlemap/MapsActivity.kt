@@ -2,14 +2,23 @@ package cha.n.googlemap
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
-import cha.n.googlemap.data.*
+import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.RecyclerView
+import cha.n.googlemap.data.address.*
+import cha.n.googlemap.data.keyword.KeywordResults
 import cha.n.googlemap.databinding.ActivityMapsBinding
-import cha.n.googlemap.utils.DisplayUtils
+import cha.n.googlemap.util.DisplayUtils
+import cha.n.googlemap.util.getRetrofitService
+import cha.n.googlemap.util.showLog
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -17,6 +26,11 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.item_list_search_result.view.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -35,6 +49,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+//        binding.bottomSheet.maxHeight = DisplayUtils.getScreenHeightPx(this@MapsActivity)*3/4
 
         sheetBehavior = BottomSheetBehavior.from(binding.bottomSheet)
         sheetBehavior.peekHeight = DisplayUtils.floatToDip(this@MapsActivity, 96f)
@@ -78,7 +94,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         binding.etSearch.addTextChangedListener { editable ->
             val documents = ArrayList<Document>()
-            val meta = Meta(is_end = true, pageable_count = 1, total_count = 1)
+            val meta = Meta(
+                is_end = true,
+                pageable_count = 1,
+                total_count = 1
+            )
 
             val address = Address(
                 address_name = "서울 영등포구 영등포동 618-496",
@@ -119,21 +139,88 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             )
             documents.add(document)
 
-            val searchResult = SearchResult(
+            val searchResult = AddressResults(
                 documents = documents,
                 meta = meta
             )
             binding.vm = searchResult
+        }
 
-            val yeongdeungpo = LatLng((binding.vm!!.documents[0].y).toDouble(), (binding.vm!!.documents[0].x).toDouble())
-            val marker1 = MarkerOptions()
-                .position(yeongdeungpo)
-                .title("Marker in Yeongdeungpo")
-//            mMap?.let {
-//                it.addMarker(marker1)
-//                it.moveCamera(CameraUpdateFactory
-//                    .newLatLngZoom(yeongdeungpo, 15F))
-//            }
+        this.showLog("걍걍", "힐힐힐")
+
+        binding.etSearch.setOnEditorActionListener { textView, i, keyEvent ->
+            getRetrofitService().getKeywordSearch(textView.text.toString()).enqueue(object : Callback<KeywordResults> {
+                override fun onFailure(call: Call<KeywordResults>, t: Throwable) {
+                    Log.d("호출실패!!!!", t.message.toString())
+                }
+
+                override fun onResponse(call: Call<KeywordResults>, response: Response<KeywordResults>) {
+                    if (response.isSuccessful) {
+                        Log.d("응답코드", response.code().toString())
+                        Log.d("응답바디", response.body().toString())
+                        val result = response.body()!!
+
+                        sheetBehavior.peekHeight = DisplayUtils.floatToDip(this@MapsActivity, 180f)
+                        if (!result.documents.isNullOrEmpty()) {
+                            binding.rvSearchResult.isVisible = true
+                            binding.tvEmptyMessage.isVisible = false
+
+                            sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
+                            val firstItem = result.documents[0]
+                            val latLng = LatLng((firstItem.y).toDouble(), (firstItem.x).toDouble())
+                            val marker1 = MarkerOptions()
+                                .position(latLng)
+                                .title(firstItem.place_name)
+                            mMap?.let {
+                                it.addMarker(marker1).showInfoWindow()
+                                it.moveCamera(CameraUpdateFactory
+                                    .newLatLngZoom(latLng, 17F))
+                            }
+                        } else {
+                            binding.rvSearchResult.isVisible = false
+                            binding.tvEmptyMessage.isVisible = true
+                        }
+
+
+                        val adapter = RecyclerAdapter(result.documents)
+                        binding.rvSearchResult.adapter = adapter
+                        adapter.setOnItemClickListener(object : OnItemClickListener {
+                            override fun onItemClick(v: View, item: Any, position: Int) {
+                                val item = item as cha.n.googlemap.data.keyword.Document
+                                when(v.id) {
+                                    R.id.clSearchResultItem -> {
+                                        sheetBehavior.peekHeight = DisplayUtils.floatToDip(this@MapsActivity, 96f)
+                                        sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                                        val smoothScroller: RecyclerView.SmoothScroller by lazy {
+                                            object : LinearSmoothScroller(this@MapsActivity) {
+                                                override fun getVerticalSnapPreference() = SNAP_TO_START
+                                            }
+                                        }
+                                        smoothScroller.targetPosition = position
+                                        binding.rvSearchResult.layoutManager?.startSmoothScroll(smoothScroller)
+
+                                        val latLng = LatLng((item.y).toDouble(), (item.x).toDouble())
+                                        val marker1 = MarkerOptions()
+                                            .position(latLng)
+                                            .title(item.place_name)
+                                        mMap?.let {
+                                            it.addMarker(marker1).showInfoWindow()
+                                            it.moveCamera(CameraUpdateFactory
+                                                .newLatLngZoom(latLng, 17F))
+
+                                        }
+                                    }
+                                }
+                            }
+                        })
+
+                    } else {
+                        Log.d("응답실패", response.errorBody()!!.string())
+                    }
+                }
+            })
+            true
         }
     }
 
@@ -154,9 +241,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val marker1 = MarkerOptions()
             .position(seoul)
             .title("Marker in Seoul")
-        mMap.addMarker(marker1)
+        mMap.addMarker(marker1).showInfoWindow()
         mMap.moveCamera(CameraUpdateFactory
-                .newLatLngZoom(seoul, 15F))
+                .newLatLngZoom(seoul, 17F))
 
         mMap.setOnMarkerClickListener {
             LocationSearchDialogFragment.newInstance(3).show(supportFragmentManager, TAG)
@@ -171,4 +258,53 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             super.onBackPressed()
         }
     }
+
+
+
+
+
+    inner class RecyclerAdapter(private val list: List<cha.n.googlemap.data.keyword.Document>) : RecyclerView.Adapter<RecyclerAdapter.ItemViewHolder>() {
+
+        var listener: OnItemClickListener? = null
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerAdapter.ItemViewHolder
+        {
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_list_search_result, parent, false)
+
+            return ItemViewHolder(view)
+        }
+
+        override fun getItemCount(): Int = list.size
+
+        override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+
+            val item = list[position]
+
+            holder.containerView.tvItemPlaceName.text = item.place_name
+            if (item.road_address_name != "") {
+                holder.containerView.tvItemAddressType.text = "[도로]"
+                holder.containerView.tvItemAddressName.text = item.road_address_name
+            } else {
+                holder.containerView.tvItemAddressType.text = "[지번]"
+                holder.containerView.tvItemAddressName.text = item.address_name
+            }
+
+            holder.containerView.clSearchResultItem.setOnClickListener {v ->
+                listener?.let { it.onItemClick(v, item, position) }
+            }
+        }
+
+        inner class ItemViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView),
+            LayoutContainer
+
+        fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
+            listener = onItemClickListener
+        }
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(v: View, item: Any, position: Int)
+    }
+
+
 }

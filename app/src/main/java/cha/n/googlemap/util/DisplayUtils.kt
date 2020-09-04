@@ -1,4 +1,4 @@
-package cha.n.googlemap.utils
+package cha.n.googlemap.util
 
 import android.content.Context
 import android.graphics.Point
@@ -33,6 +33,15 @@ class DisplayUtils {
             return TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, float, context.resources.displayMetrics
             ).toInt()
+        }
+
+
+        fun getStatusBarHeight(context: Context): Int {
+            var result = 0
+            val resourceId =
+                context.resources.getIdentifier("status_bar_height", "dimen", "android")
+            if (resourceId > 0) result = context.resources.getDimensionPixelSize(resourceId)
+            return result
         }
     }
 }

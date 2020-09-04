@@ -8,166 +8,24 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.TranslucentStatus" parent="AppTheme">
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
 
     <!-- START 텍스트필드 스타일 -->
-    <style name="ComEditText" parent="Text2Dark1Left">
+    <style name="ComEditText" parent="Text2">
         <item name="android:minHeight">42dp</item>
         <item name="android:paddingTop">2dp</item>
         <item name="android:paddingBottom">2dp</item>
         <item name="android:paddingStart">16dp</item>
         <item name="android:paddingEnd">42dp</item>
+        <item name="android:gravity">center_vertical|start</item>
         <item name="android:singleLine">true</item>
         <item name="android:textCursorDrawable">@color/yellow_1_ffd164</item>
         <item name="android:background">@drawable/bg_selector_com_edt</item>
+        <item name="android:textColor">@color/dark_1_212529</item>
         <item name="android:textColorHint">@color/light_6_adb5bd</item>
     </style>
     <!-- END 텍스트필드 스타일 -->
-
-
-    <!-- START CROP -->
-    <declare-styleable name="CropImageView">
-        <attr name="cropGuidelines">
-            <enum name="off" value="0"/>
-            <enum name="onTouch" value="1"/>
-            <enum name="on" value="2"/>
-        </attr>
-        <attr name="cropScaleType">
-            <enum name="fitCenter" value="0"/>
-            <enum name="center" value="1"/>
-            <enum name="centerCrop" value="2"/>
-            <enum name="centerInside" value="3"/>
-        </attr>
-        <attr name="cropShape">
-            <enum name="rectangle" value="0"/>
-            <enum name="oval" value="1"/>
-        </attr>
-        <attr name="cropAutoZoomEnabled" format="boolean"/>
-        <attr name="cropMaxZoom" format="integer"/>
-        <attr name="cropMultiTouchEnabled" format="boolean"/>
-        <attr name="cropFixAspectRatio" format="boolean"/>
-        <attr name="cropAspectRatioX" format="integer"/>
-        <attr name="cropAspectRatioY" format="integer"/>
-        <attr name="cropInitialCropWindowPaddingRatio" format="float"/>
-        <attr name="cropBorderLineThickness" format="dimension"/>
-        <attr name="cropBorderLineColor" format="color"/>
-        <attr name="cropBorderCornerThickness" format="dimension"/>
-        <attr name="cropBorderCornerOffset" format="dimension"/>
-        <attr name="cropBorderCornerLength" format="dimension"/>
-        <attr name="cropBorderCornerColor" format="color"/>
-        <attr name="cropGuidelinesThickness" format="dimension"/>
-        <attr name="cropGuidelinesColor" format="color"/>
-        <attr name="cropBackgroundColor" format="color"/>
-        <attr name="cropSnapRadius" format="dimension"/>
-        <attr name="cropTouchRadius" format="dimension"/>
-        <attr name="cropSaveBitmapToInstanceState" format="boolean"/>
-        <attr name="cropShowCropOverlay" format="boolean"/>
-        <attr name="cropShowProgressBar" format="boolean"/>
-        <attr name="cropMinCropWindowWidth" format="dimension"/>
-        <attr name="cropMinCropWindowHeight" format="dimension"/>
-        <attr name="cropMinCropResultWidthPX" format="float"/>
-        <attr name="cropMinCropResultHeightPX" format="float"/>
-        <attr name="cropMaxCropResultWidthPX" format="float"/>
-        <attr name="cropMaxCropResultHeightPX" format="float"/>
-        <attr name="cropFlipHorizontally" format="boolean"/>
-        <attr name="cropFlipVertically" format="boolean"/>
-    </declare-styleable>
-    <!-- END CROP -->
-
-    <!-- START 이미지 슬라이더-->
-    <declare-styleable name="SliderLayout">
-
-        <!-- indicator visibility -->
-        <attr name="indicator_visibility" format="enum">
-            <enum name="visible" value="0"/>
-            <enum name="invisible" value="1"/>
-        </attr>
-
-        <attr name="auto_cycle" format="boolean"/>
-
-        <!-- page animation time span -->
-        <attr name="pager_animation_span" format="integer"/>
-
-    </declare-styleable>
-
-    <declare-styleable name="PagerIndicator">
-        <!-- indicator visibility -->
-        <attr name="visibility" format="enum">
-            <enum name="visible" value="0"/>
-            <enum name="invisible" value="1"/>
-        </attr>
-
-        <attr name="shape" format="enum">
-            <enum value="0" name="oval"/>
-            <enum value="1" name="rect"/>
-        </attr>
-
-        <attr name="selected_color" format="color"/>
-        <attr name="unselected_color" format="color"/>
-
-        <!-- indicator style -->
-        <attr name="selected_drawable" format="reference"/>
-        <attr name="unselected_drawable" format="reference"/>
-
-        <attr name="selected_width" format="dimension"/>
-        <attr name="selected_height" format="dimension"/>
-
-        <attr name="unselected_width" format="dimension"/>
-        <attr name="unselected_height" format="dimension"/>
-
-        <attr name="padding_left" format="dimension"/>
-        <attr name="padding_right" format="dimension"/>
-        <attr name="padding_top" format="dimension"/>
-        <attr name="padding_bottom" format="dimension"/>
-
-        <attr name="selected_padding_left" format="dimension"/>
-        <attr name="selected_padding_right" format="dimension"/>
-        <attr name="selected_padding_top" format="dimension"/>
-        <attr name="selected_padding_bottom" format="dimension"/>
-
-        <attr name="unselected_padding_left" format="dimension"/>
-        <attr name="unselected_padding_right" format="dimension"/>
-        <attr name="unselected_padding_top" format="dimension"/>
-        <attr name="unselected_padding_bottom" format="dimension"/>
-
-
-    </declare-styleable>
-
-    <declare-styleable name="Themes">
-        <attr name="SliderStyle" format="reference"/>
-        <attr name="PagerIndicatorStyle" format="reference"/>
-    </declare-styleable>
-    <!-- END 이미지 슬라이더-->
-
-
-
-    <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
-        <!--        <item name="android:background">@drawable/z_box_buttom_radius_top_bg_xml</item>-->
-    </style>
-
-    <style name="BaseBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
-        <item name="android:windowIsFloating">false</item>
-        <!--        <item name="android:backgroundDimEnabled">false</item>-->
-        <!--        <item name="android:backgroundDimAmount">0</item>-->
-        <!--        <item name="bottomSheetStyle">@style/BottomSheet</item>-->
-        <!--        <item name="colorPrimary">@color/colorPrimary</item>-->
-        <!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
-        <!--        <item name="colorAccent">@color/colorAccent</item>-->
-        <!--        <item name="colorControlActivated">@color/color_c90be1</item>-->
-        <!--        <item name="android:windowNoTitle">true</item>-->
-        <!--        <item name="android:windowFullscreen">true</item>-->
-    </style>
-
-    <style name="Dialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
-        <item name="android:windowIsFloating">false</item>
-        <item name="bottomSheetStyle">@style/BottomSheet</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorControlActivated">#c90be1</item>
-    </style>
-
-
-    <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />
-
 
 </resources>
