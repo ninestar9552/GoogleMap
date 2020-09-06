@@ -6,45 +6,43 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import cha.n.googlemap.R
 import cha.n.googlemap.data.model.keyword.Document
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.item_list_search_result.view.*
+import cha.n.googlemap.databinding.ItemKeywordBinding
 
 class RecyclerAdapter :
-    ListAdapter<Document, RecyclerAdapter.ItemViewHolder>(DocumentDiffCallback()) {
+    ListAdapter<Document, RecyclerAdapter.ViewHolder>(DocumentDiffCallback()) {
 
     var listener: OnItemClickListener? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder
-    {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_list_search_result, parent, false)
-
-        return ItemViewHolder(view)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder.from(parent)
 
     override fun onBindViewHolder(
-        holder: ItemViewHolder, position: Int
+        holder: ViewHolder, position: Int
     ) {
         val item = getItem(position)
-//        val item = list[position]
 
-        holder.containerView.tvItemPlaceName.text = item.place_name
-        if (item.road_address_name != "") {
-            holder.containerView.tvItemAddressType.text = "[도로]"
-            holder.containerView.tvItemAddressName.text = item.road_address_name
-        } else {
-            holder.containerView.tvItemAddressType.text = "[지번]"
-            holder.containerView.tvItemAddressName.text = item.address_name
-        }
-
-        holder.containerView.clSearchResultItem.setOnClickListener {v ->
+        holder.bind(item)
+        holder.binding.clSearchResultItem.setOnClickListener {v ->
             listener?.let { it.onItemClick(v, item, position) }
         }
     }
 
-    inner class ItemViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView),
-        LayoutContainer
+    class ViewHolder private constructor(val binding: ItemKeywordBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(item: Document) {
+            binding.item = item
+        }
+
+        companion object {
+            fun from(parent: ViewGroup): ViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = ItemKeywordBinding.inflate(layoutInflater, parent, false)
+
+                return ViewHolder(binding)
+            }
+        }
+    }
 
     fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
         listener = onItemClickListener

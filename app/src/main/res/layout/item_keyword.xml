@@ -4,8 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-
+        <variable
+            name="item"
+            type="cha.n.googlemap.data.model.keyword.Document" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,6 +24,7 @@
             android:layout_height="wrap_content"
             android:gravity="start"
             android:textColor="@color/dark_1_212529"
+            android:text="@{item.place_name}"
             tools:text="place name"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,6 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:textColor="@color/dark_4_868e96"
+            android:text="@{item.road_address_name.empty ? @string/type_region_address : @string/type_road_address}"
             tools:text="[type]"
             app:layout_constraintTop_toBottomOf="@+id/tvItemPlaceName"
             app:layout_constraintStart_toStartOf="parent" />
@@ -47,6 +50,7 @@
             android:layout_marginStart="4dp"
             android:gravity="start"
             android:textColor="@color/dark_4_868e96"
+            android:text="@{item.road_address_name.empty ? item.address_name : item.road_address_name}"
             tools:text="address name"
             app:layout_constraintTop_toTopOf="@+id/tvItemAddressType"
             app:layout_constraintStart_toEndOf="@+id/tvItemAddressType"

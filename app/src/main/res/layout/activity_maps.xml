@@ -61,7 +61,7 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:visibility="@{vm.empty ? View.GONE : View.VISIBLE}"
                     app:items="@{vm.documents}"
-                    tools:listitem="@layout/item_list_search_result"
+                    tools:listitem="@layout/item_keyword"
                     tools:itemCount="15"
                     app:layout_constraintTop_toBottomOf="@+id/etSearch"
                     app:layout_constraintBottom_toBottomOf="parent"
