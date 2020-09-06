@@ -19,7 +19,6 @@ package cha.n.googlemap.util
  * Extension functions and Binding Adapters.
  */
 
-import android.app.Activity
 import android.util.Log
 import cha.n.googlemap.data.retrofit.RetrofitClient
 import cha.n.googlemap.data.retrofit.RetrofitService
@@ -27,7 +26,7 @@ import cha.n.googlemap.data.retrofit.RetrofitService
 /**
  * Transforms static java function Snackbar.make() to an extension function on View.
  */
-fun Activity.showLog(tag:String, logText: String) {
+fun showLog(tag:String, logText: String) {
     Log.d(tag, logText)
 }
 

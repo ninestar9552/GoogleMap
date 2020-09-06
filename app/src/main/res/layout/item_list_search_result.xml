@@ -1,49 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/clSearchResultItem"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingVertical="5dp"
-    android:paddingHorizontal="20dp"
-    android:background="?attr/selectableItemBackground">
-    
-    <TextView
-        style="@style/Heading5"
-        android:id="@+id/tvItemPlaceName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="start"
-        android:textColor="@color/dark_1_212529"
-        tools:text="place name"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
-    <TextView
-        style="@style/Text2"
-        android:id="@+id/tvItemAddressType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:textColor="@color/dark_4_868e96"
-        tools:text="[type]"
-        app:layout_constraintTop_toBottomOf="@+id/tvItemPlaceName"
-        app:layout_constraintStart_toStartOf="parent"
-        />
-    <TextView
-        style="@style/Text2"
-        android:id="@+id/tvItemAddressName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:gravity="start"
-        android:textColor="@color/dark_4_868e96"
-        tools:text="address name"
-        app:layout_constraintTop_toTopOf="@+id/tvItemAddressType"
-        app:layout_constraintStart_toEndOf="@+id/tvItemAddressType"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <data>
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clSearchResultItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="5dp"
+        android:paddingHorizontal="20dp"
+        android:background="?attr/selectableItemBackground">
+
+        <TextView
+            style="@style/Heading5"
+            android:id="@+id/tvItemPlaceName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:textColor="@color/dark_1_212529"
+            tools:text="place name"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            style="@style/Text2"
+            android:id="@+id/tvItemAddressType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/dark_4_868e96"
+            tools:text="[type]"
+            app:layout_constraintTop_toBottomOf="@+id/tvItemPlaceName"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            style="@style/Text2"
+            android:id="@+id/tvItemAddressName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:gravity="start"
+            android:textColor="@color/dark_4_868e96"
+            tools:text="address name"
+            app:layout_constraintTop_toTopOf="@+id/tvItemAddressType"
+            app:layout_constraintStart_toEndOf="@+id/tvItemAddressType"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
