@@ -1,4 +1,4 @@
-package cha.n.googlemap.data.address
+package cha.n.googlemap.data.model.address
 
 data class AddressResults(
     val documents: List<Document>,

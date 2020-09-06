@@ -1,4 +1,4 @@
-package cha.n.googlemap.data.keyword
+package cha.n.googlemap.data.model.keyword
 
 data class KeywordResults(
     val documents: List<Document>,

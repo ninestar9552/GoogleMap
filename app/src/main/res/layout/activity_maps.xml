@@ -6,7 +6,7 @@
     <data>
         <variable
             name="vm"
-            type="cha.n.googlemap.data.address.AddressResults" />
+            type="cha.n.googlemap.ui.MapsViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

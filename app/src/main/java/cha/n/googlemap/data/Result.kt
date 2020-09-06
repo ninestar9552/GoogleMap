@@ -13,22 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cha.n.googlemap.util
+
+package cha.n.googlemap.data
 
 /**
- * Extension functions and Binding Adapters.
+ * A generic class that holds a value with its loading status.
+ * @param <T>
  */
+sealed class Result<out R> {
 
-import android.app.Activity
-import android.util.Log
-import cha.n.googlemap.data.retrofit.RetrofitClient
-import cha.n.googlemap.data.retrofit.RetrofitService
+    data class Success<out T>(val data: T) : Result<T>()
+    data class Error(val exception: Exception) : Result<Nothing>()
+    object Loading : Result<Nothing>()
 
-/**
- * Transforms static java function Snackbar.make() to an extension function on View.
- */
-fun Activity.showLog(tag:String, logText: String) {
-    Log.d(tag, logText)
+    override fun toString(): String {
+        return when (this) {
+            is Success<*> -> "Success[data=$data]"
+            is Error -> "Error[exception=$exception]"
+            Loading -> "Loading"
+        }
+    }
 }
-
-fun getRetrofitService() : RetrofitService = RetrofitClient.getInstnace().create(RetrofitService::class.java)

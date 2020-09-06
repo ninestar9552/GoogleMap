@@ -1,4 +1,4 @@
-package cha.n.googlemap
+package cha.n.googlemap.ui
 
 import android.os.Bundle
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import cha.n.googlemap.R
 import cha.n.googlemap.databinding.FragmentLocationSearchDialogBinding
 
 const val ARG_ANY = "item_any"
@@ -30,7 +31,8 @@ class LocationSearchDialogFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_location_search_dialog, container, false)
+        binding = DataBindingUtil.inflate(layoutInflater,
+            R.layout.fragment_location_search_dialog, container, false)
         return binding.root
     }
 

@@ -1,4 +1,4 @@
-package cha.n.googlemap.data.keyword
+package cha.n.googlemap.data.model.keyword
 
 data class Document(
     val address_name: String,

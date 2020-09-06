@@ -1,7 +1,7 @@
-package cha.n.googlemap.retrofit
+package cha.n.googlemap.data.retrofit
 
-import cha.n.googlemap.data.address.AddressResults
-import cha.n.googlemap.data.keyword.KeywordResults
+import cha.n.googlemap.data.model.address.AddressResults
+import cha.n.googlemap.data.model.keyword.KeywordResults
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers

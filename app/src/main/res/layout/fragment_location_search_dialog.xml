@@ -13,7 +13,7 @@
             android:clipToPadding="false"
             android:paddingTop="@dimen/list_item_spacing_half"
             android:paddingBottom="@dimen/list_item_spacing_half"
-            tools:context=".LocationSearchDialogFragment"
+            tools:context=".ui.LocationSearchDialogFragment"
             tools:listitem="@layout/item_list_location_search_dialog" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
