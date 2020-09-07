@@ -1,11 +1,8 @@
 package cha.n.googlemap.ui
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
-import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -14,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import cha.n.googlemap.R
 import cha.n.googlemap.data.model.keyword.Document
 import cha.n.googlemap.databinding.ActivityMapsBinding
-import cha.n.googlemap.util.DisplayUtils
 import cha.n.googlemap.util.EventObserver
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -35,7 +31,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
-    private lateinit var sheetBehavior: BottomSheetBehavior<View>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,28 +42,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.vm = viewModel
 
         setupMapFragment()
-        setupBottomSheet()
-        setupListAdapter()
-
-        binding.etSearch.apply {
-            setOnEditorActionListener { textView, i, keyEvent ->
-                viewModel.getKeywordResults(textView.text.toString())
-                sheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
-                true
-            }
-
-            setOnFocusChangeListener { view, hasFocus ->
-                if (hasFocus) {
-                    sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-                }
-            }
-
-            setOnClickListener {
-                if (sheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {
-                    sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-                }
-            }
-        }
 
         viewModel.documents.observe(this@MapsActivity, Observer { documents ->
             if (!documents.isNullOrEmpty()) {
@@ -78,26 +51,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         })
 
         viewModel.itemSelctedEvent.observe(this@MapsActivity, EventObserver { item ->
-            sheetBehavior.peekHeight = DisplayUtils.floatToDip(this@MapsActivity, 96f)
-            sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-
-            addMarker(item)
-
-            /*
-            val smoothScroller: RecyclerView.SmoothScroller by lazy {
-                object : LinearSmoothScroller(this@MapsActivity) {
-                    override fun getVerticalSnapPreference() = SNAP_TO_START
-                }
-            }
-            smoothScroller.targetPosition = position
-            binding.rvSearchResult.layoutManager?.startSmoothScroll(smoothScroller)
-             */
-        })
-
-        viewModel.inputKeywordText.observe(this@MapsActivity, Observer { inputText ->
-            if (inputText.length > 2) {
-                viewModel.getKeywordResults(inputText)
-            }
+          addMarker(item)
         })
     }
 
@@ -159,50 +113,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun setupBottomSheet() {
-//        binding.bottomSheet.maxHeight = DisplayUtils.getScreenHeightPx(this@MapsActivity)*3/4
-        sheetBehavior = BottomSheetBehavior.from(binding.bottomSheet)
-        sheetBehavior.apply {
-            peekHeight = DisplayUtils.floatToDip(this@MapsActivity, 96f)
-            isHideable = false
-            addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-                override fun onSlide(bottomSheet: View, slideOffset: Float) { }
-                override fun onStateChanged(bottomSheet: View, newState: Int) {
-                    when (newState) {
-                        BottomSheetBehavior.STATE_HIDDEN -> {
-                        }
-                        BottomSheetBehavior.STATE_EXPANDED -> {
-                        }
-                        BottomSheetBehavior.STATE_HALF_EXPANDED -> {
-                            (this@MapsActivity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(bottomSheet.windowToken, 0)
-                        }
-                        BottomSheetBehavior.STATE_COLLAPSED -> {
-                            (this@MapsActivity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(bottomSheet.windowToken, 0)
-                            binding.etSearch.clearFocus()
-                        }
-                        BottomSheetBehavior.STATE_DRAGGING -> {
-                        }
-                        BottomSheetBehavior.STATE_SETTLING -> {
-                        }
-                    }
-                }
-
-            })
-        }
-    }
-
-    private fun setupListAdapter() {
-        viewModel?.let { viewModel ->
-            binding.rvSearchResult.adapter = RecyclerAdapter(viewModel = viewModel)
-        }
-    }
-
     override fun onBackPressed() {
-        if (sheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
-            sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        } else {
-            super.onBackPressed()
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.bottomSheet)
+        if (currentFragment is BottomSheetFragment) {
+            currentFragment.sheetBehavior?.let {
+                if (it.state == BottomSheetBehavior.STATE_EXPANDED) {
+                    it.state = BottomSheetBehavior.STATE_COLLAPSED
+                    return
+                }
+            }
         }
+        super.onBackPressed()
     }
 
 
