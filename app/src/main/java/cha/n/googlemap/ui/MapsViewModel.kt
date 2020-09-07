@@ -4,11 +4,8 @@ import androidx.lifecycle.*
 import cha.n.googlemap.data.Result
 import cha.n.googlemap.data.model.keyword.Document
 import cha.n.googlemap.data.model.keyword.KeywordResults
-import cha.n.googlemap.data.source.KeywordDataSourceImpl
 import cha.n.googlemap.data.source.KeywordRepository
-import cha.n.googlemap.data.source.KeywordRepositoryImplinternal
 import cha.n.googlemap.util.Event
-import cha.n.googlemap.util.getRetrofitService
 
 class MapsViewModel internal constructor(
     private val keywordRepository: KeywordRepository
@@ -52,16 +49,14 @@ class MapsViewModel internal constructor(
     }
 }
 
-class MapsViewModelFactory : ViewModelProvider.Factory {
+class MapsViewModelFactory constructor(
+    private val keywordRepository: KeywordRepository
+) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MapsViewModel::class.java)) {
             return MapsViewModel(
-                keywordRepository = KeywordRepositoryImplinternal(
-                    keywordDataSource = KeywordDataSourceImpl(
-                        getRetrofitService()
-                    )
-                )
+                keywordRepository = keywordRepository
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

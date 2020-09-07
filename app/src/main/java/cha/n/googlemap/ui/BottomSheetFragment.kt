@@ -2,25 +2,25 @@ package cha.n.googlemap.ui
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import cha.n.googlemap.MyApplication
 import cha.n.googlemap.R
 import cha.n.googlemap.databinding.FragmentBottomSheetBinding
 import cha.n.googlemap.util.DisplayUtils
-import cha.n.googlemap.util.EventObserver
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 
 class BottomSheetFragment : Fragment() {
 
     private val viewModel: MapsViewModel by lazy {
-        ViewModelProvider(requireActivity(), MapsViewModelFactory()).get(MapsViewModel::class.java)
+        ViewModelProvider(requireActivity(), MapsViewModelFactory((requireActivity().application as MyApplication).taskRepository)).get(MapsViewModel::class.java)
     }
 
     private lateinit var binding: FragmentBottomSheetBinding
@@ -68,19 +68,11 @@ class BottomSheetFragment : Fragment() {
             }
         })
 
-        viewModel.itemSelctedEvent.observe(this@BottomSheetFragment, EventObserver { item ->
-            sheetBehavior.peekHeight = DisplayUtils.floatToDip(requireContext(), 96f)
-            sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-
-            /*
-            val smoothScroller: RecyclerView.SmoothScroller by lazy {
-                object : LinearSmoothScroller(this@MapsActivity) {
-                    override fun getVerticalSnapPreference() = SNAP_TO_START
-                }
+        viewModel.itemSelctedEvent.observe(this@BottomSheetFragment, Observer { event ->
+            event.peekContent().apply {
+                sheetBehavior.peekHeight = DisplayUtils.floatToDip(requireContext(), 96f)
+                sheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
             }
-            smoothScroller.targetPosition = position
-            binding.rvSearchResult.layoutManager?.startSmoothScroll(smoothScroller)
-             */
         })
 
     }

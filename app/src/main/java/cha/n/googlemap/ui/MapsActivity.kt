@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import cha.n.googlemap.MyApplication
 import cha.n.googlemap.R
 import cha.n.googlemap.data.model.keyword.Document
 import cha.n.googlemap.databinding.ActivityMapsBinding
@@ -23,10 +24,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
-    private val TAG = MapsActivity::class.java.simpleName
-
     private val viewModel: MapsViewModel by lazy {
-        ViewModelProvider(this@MapsActivity, MapsViewModelFactory()).get(MapsViewModel::class.java)
+        ViewModelProvider(this@MapsActivity, MapsViewModelFactory((this@MapsActivity.application as MyApplication).taskRepository)).get(MapsViewModel::class.java)
     }
 
     private lateinit var mMap: GoogleMap
@@ -125,7 +124,5 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
         super.onBackPressed()
     }
-
-
 
 }

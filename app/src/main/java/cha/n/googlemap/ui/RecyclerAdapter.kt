@@ -1,7 +1,6 @@
 package cha.n.googlemap.ui
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -39,10 +38,6 @@ class RecyclerAdapter(private val viewModel: MapsViewModel) :
             }
         }
     }
-}
-
-interface OnItemClickListener {
-    fun onItemClick(v: View, item: Any, position: Int)
 }
 
 /**
