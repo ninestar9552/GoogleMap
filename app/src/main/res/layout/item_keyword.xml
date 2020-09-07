@@ -7,6 +7,10 @@
         <variable
             name="item"
             type="cha.n.googlemap.data.model.keyword.Document" />
+
+        <variable
+            name="vm"
+            type="cha.n.googlemap.ui.MapsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,7 +19,8 @@
         android:layout_height="wrap_content"
         android:paddingVertical="5dp"
         android:paddingHorizontal="20dp"
-        android:background="?attr/selectableItemBackground">
+        android:background="?attr/selectableItemBackground"
+        android:onClick="@{() -> vm.onItemSelected(item)}">
 
         <TextView
             style="@style/Heading5"

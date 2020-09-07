@@ -9,10 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import cha.n.googlemap.data.model.keyword.Document
 import cha.n.googlemap.databinding.ItemKeywordBinding
 
-class RecyclerAdapter :
+class RecyclerAdapter(private val viewModel: MapsViewModel) :
     ListAdapter<Document, RecyclerAdapter.ViewHolder>(DocumentDiffCallback()) {
-
-    var listener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder.from(parent)
 
@@ -21,16 +19,14 @@ class RecyclerAdapter :
     ) {
         val item = getItem(position)
 
-        holder.bind(item)
-        holder.binding.clSearchResultItem.setOnClickListener {v ->
-            listener?.let { it.onItemClick(v, item, position) }
-        }
+        holder.bind(viewModel, item)
     }
 
-    class ViewHolder private constructor(val binding: ItemKeywordBinding) :
+    class ViewHolder private constructor(private val binding: ItemKeywordBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Document) {
+        fun bind(viewModel: MapsViewModel, item: Document) {
+            binding.vm = viewModel
             binding.item = item
         }
 
@@ -42,10 +38,6 @@ class RecyclerAdapter :
                 return ViewHolder(binding)
             }
         }
-    }
-
-    fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
-        listener = onItemClickListener
     }
 }
 
