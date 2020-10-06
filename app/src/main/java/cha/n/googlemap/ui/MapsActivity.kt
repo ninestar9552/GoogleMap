@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import cha.n.googlemap.MyApplication
 import cha.n.googlemap.R
+import cha.n.googlemap.data.model.FavoritesDatabase
 import cha.n.googlemap.data.model.keyword.Document
 import cha.n.googlemap.databinding.ActivityMapsBinding
 import cha.n.googlemap.util.EventObserver
@@ -25,7 +26,11 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private val viewModel: MapsViewModel by lazy {
-        ViewModelProvider(this@MapsActivity, MapsViewModelFactory((this@MapsActivity.application as MyApplication).taskRepository)).get(MapsViewModel::class.java)
+        ViewModelProvider(this@MapsActivity,
+            MapsViewModelFactory((this@MapsActivity.application as MyApplication).service,
+            FavoritesDatabase.getInstance(this@MapsActivity.applicationContext)?.favoritesDao()!!
+        )
+        ).get(MapsViewModel::class.java)
     }
 
     private lateinit var mMap: GoogleMap
@@ -52,6 +57,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         viewModel.itemSelctedEvent.observe(this@MapsActivity, EventObserver { item ->
           addMarker(item)
         })
+
+        viewModel.favoritesCompleteEvent.observe(this@MapsActivity, EventObserver { id ->
+            viewModel.addFavorites(id)
+        })
     }
 
     /**
@@ -70,6 +79,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 .newLatLngZoom(seoul, 17F))
 
             setOnInfoWindowClickListener {
+                viewModel.saveFavorites(it.tag as Document)
+            }
+
+            setOnMarkerClickListener {
                 val document = it.tag as Document
                 viewModel.setInputKeywordText(document.place_name)
                 AlertDialog.Builder(this@MapsActivity)
@@ -79,11 +92,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(document.place_url)))
                     }
                     .show()
-            }
-
-            setOnMarkerClickListener {
-                val document = it.tag as Document
-                viewModel.setInputKeywordText(document.place_name)
                 true
             }
         }
@@ -101,6 +109,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val markerOptions = MarkerOptions()
             .position(latLng)
             .title(document.place_name)
+            .snippet("즐겨찾기 추가")
         mMap?.let {
             val marker = it.addMarker(markerOptions)
             marker.tag = document

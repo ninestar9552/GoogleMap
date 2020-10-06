@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import cha.n.googlemap.MyApplication
 import cha.n.googlemap.R
+import cha.n.googlemap.data.model.FavoritesDatabase
 import cha.n.googlemap.databinding.FragmentBottomSheetBinding
 import cha.n.googlemap.util.DisplayUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -20,7 +21,11 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 class BottomSheetFragment : Fragment() {
 
     private val viewModel: MapsViewModel by lazy {
-        ViewModelProvider(requireActivity(), MapsViewModelFactory((requireActivity().application as MyApplication).taskRepository)).get(MapsViewModel::class.java)
+        ViewModelProvider(requireActivity(),
+            MapsViewModelFactory((requireActivity().application as MyApplication).service,
+                FavoritesDatabase.getInstance(requireContext().applicationContext)?.favoritesDao()!!
+            )
+        ).get(MapsViewModel::class.java)
     }
 
     private lateinit var binding: FragmentBottomSheetBinding
