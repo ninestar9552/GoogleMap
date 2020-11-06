@@ -24,7 +24,7 @@ class BottomSheetFragment : Fragment() {
     }
 
     private lateinit var binding: FragmentBottomSheetBinding
-    lateinit var sheetBehavior: BottomSheetBehavior<View>
+    lateinit var sheetBehavior: BottomSheetBehavior<View>   // Activity의 onBackPressed에서 접근할 수 있도록 public 선언
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,13 +42,15 @@ class BottomSheetFragment : Fragment() {
         setupBottomSheet()
         setupListAdapter()
 
-        binding.etSearch.apply {
+        binding.etKeywordSearch.apply {
             setOnEditorActionListener { textView, i, keyEvent ->
                 viewModel.getKeywordResults(textView.text.toString())
                 sheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
                 true
             }
 
+            // focus 상태가 되거나 또는 click 이벤트 시 bottom sheet 확장
+            // (edit text 는 focus가 없을 시 click 이벤트가 발생되지 않으므로)
             setOnFocusChangeListener { view, hasFocus ->
                 if (hasFocus) {
                     sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -68,9 +70,10 @@ class BottomSheetFragment : Fragment() {
             }
         })
 
+        // 반환된 Event class의 peekContent() 메서드 사용 시 기존 이벤트 소비 여부에 상관없이 이벤트 발생됨
+        // (Event class 사용 시 Observer와 EventObserver의 차이)
         viewModel.itemSelctedEvent.observe(this@BottomSheetFragment, Observer { event ->
             event.peekContent().apply {
-                sheetBehavior.peekHeight = DisplayUtils.floatToDip(requireContext(), 96f)
                 sheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
             }
         })
@@ -78,28 +81,22 @@ class BottomSheetFragment : Fragment() {
     }
 
     private fun setupBottomSheet() {
-        sheetBehavior = BottomSheetBehavior.from(binding.bottomSheet)
+        sheetBehavior = BottomSheetBehavior.from(binding.clBottomSheet)
         sheetBehavior.apply {
-            peekHeight = DisplayUtils.floatToDip(requireContext(), 96f)
+            peekHeight = DisplayUtils.floatToDip(requireContext(), 126f)
             isHideable = false
             addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-                override fun onSlide(bottomSheet: View, slideOffset: Float) { }
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+                }
                 override fun onStateChanged(bottomSheet: View, newState: Int) {
                     when (newState) {
-                        BottomSheetBehavior.STATE_HIDDEN -> {
-                        }
-                        BottomSheetBehavior.STATE_EXPANDED -> {
-                        }
                         BottomSheetBehavior.STATE_HALF_EXPANDED -> {
                             (requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(bottomSheet.windowToken, 0)
                         }
                         BottomSheetBehavior.STATE_COLLAPSED -> {
                             (requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(bottomSheet.windowToken, 0)
-                            binding.etSearch.clearFocus()
-                        }
-                        BottomSheetBehavior.STATE_DRAGGING -> {
-                        }
-                        BottomSheetBehavior.STATE_SETTLING -> {
+                            binding.etKeywordSearch.clearFocus()
                         }
                     }
                 }

@@ -11,8 +11,8 @@ class MapsViewModel internal constructor(
     private val keywordRepository: KeywordRepository
 ) : ViewModel() {
 
-    private val _items = MutableLiveData<KeywordResults>()
-    val items: LiveData<KeywordResults> = _items
+    private val _keywordResults = MutableLiveData<KeywordResults>()
+    val keywordResults: LiveData<KeywordResults> = _keywordResults
 
     private val _documents = MutableLiveData<List<Document>>()
     val documents: LiveData<List<Document>> = _documents
@@ -31,10 +31,10 @@ class MapsViewModel internal constructor(
     fun getKeywordResults(keyword: String) {
         keywordRepository.getKeywordResults(keyword, onResponse = {
             if (it is Result.Success) {
-                _items.value = it.data
+                _keywordResults.value = it.data
                 _documents.value = it.data.documents
             } else {
-                _items.value = null
+                _keywordResults.value = null
                 _documents.value = null
             }
         })

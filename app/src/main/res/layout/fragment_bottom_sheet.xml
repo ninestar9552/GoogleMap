@@ -15,14 +15,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/bottomSheet"
+            android:id="@+id/cl_bottom_sheet"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="30dp"
+            android:paddingTop="60dp"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clBottomContent"
+                android:id="@+id/cl_bottom_content"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintTop_toTopOf="parent"
@@ -34,12 +34,12 @@
 
                 <EditText
                     style="@style/ComEditText"
-                    android:id="@+id/etSearch"
+                    android:id="@+id/et_keyword_search"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:layout_marginHorizontal="15dp"
-                    android:hint="주소를 검색해주세요"
+                    android:hint="@string/keyword_search_hint"
                     android:imeOptions="actionSearch"
                     android:text="@={vm.inputKeywordText}"
                     app:layout_constraintTop_toTopOf="parent"
@@ -47,7 +47,7 @@
                     app:layout_constraintEnd_toEndOf="parent" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvSearchResult"
+                    android:id="@+id/rv_search_result"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginTop="12dp"
@@ -58,22 +58,22 @@
                     app:items="@{vm.documents}"
                     tools:listitem="@layout/item_keyword"
                     tools:itemCount="15"
-                    app:layout_constraintTop_toBottomOf="@+id/etSearch"
+                    app:layout_constraintTop_toBottomOf="@+id/et_keyword_search"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 
                 <TextView
                     style="@style/Text2"
-                    android:id="@+id/tvEmptyMessage"
+                    android:id="@+id/tv_empty_message"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:gravity="center"
                     android:textColor="@color/dark_4_868e96"
-                    android:text="검색결과가 없습니다."
+                    android:text="@string/keyword_search_no_result"
                     android:visibility="@{vm.empty ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintTop_toBottomOf="@+id/etSearch"
+                    app:layout_constraintTop_toBottomOf="@+id/et_keyword_search"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 

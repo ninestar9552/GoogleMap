@@ -7,6 +7,12 @@ import android.view.WindowManager
 
 class DisplayUtils {
     companion object {
+        fun floatToDip(context: Context, float: Float): Int {
+            return TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, float, context.resources.displayMetrics
+            ).toInt()
+        }
+
         fun getScreenWidthPx(context: Context): Int {
             val wm =
                 context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -28,13 +34,6 @@ class DisplayUtils {
         fun getDeviceDensity(context: Context): Float {
             return context.resources.displayMetrics.density
         }
-
-        fun floatToDip(context: Context, float: Float): Int {
-            return TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, float, context.resources.displayMetrics
-            ).toInt()
-        }
-
 
         fun getStatusBarHeight(context: Context): Int {
             var result = 0

@@ -1,6 +1,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ExtraTranslation">
     <string name="app_name">GoogleMap</string>
     <string name="title_activity_maps">Map</string>
+
     <string name="type_road_address">[도로]</string>
     <string name="type_region_address">[지번]</string>
+
+    <string name="keyword_search_hint">주소를 검색해주세요</string>
+    <string name="keyword_search_no_result">검색결과가 없습니다.</string>
+
+    <string name="confirm_go_to_detail_page">상세 페이지로 이동하시겠습니까?</string>
+    <string name="alert_yes">예</string>
 </resources>

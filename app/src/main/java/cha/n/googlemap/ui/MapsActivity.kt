@@ -49,6 +49,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         })
 
+        // Evnet class 대신 필요한 객체를 바로 반환해주고 이벤트를 다시 사용하지 못하도록 함
+        // (Event class 사용 시 Observer와 EventObserver의 차이)
         viewModel.itemSelctedEvent.observe(this@MapsActivity, EventObserver { item ->
           addMarker(item)
         })
@@ -65,6 +67,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap.apply {
+            // 서울을 초기화면으로 설정
             val seoul = LatLng(37.555149, 126.970759)
             moveCamera(CameraUpdateFactory
                 .newLatLngZoom(seoul, 17F))
@@ -74,13 +77,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 viewModel.setInputKeywordText(document.place_name)
                 AlertDialog.Builder(this@MapsActivity)
                     .setTitle(document.place_name)
-                    .setMessage("상세 페이지로 이동하시겠습니까?")
-                    .setPositiveButton("예") { dialog, i ->
+                    .setMessage(R.string.confirm_go_to_detail_page)
+                    .setPositiveButton(R.string.alert_yes) { dialog, i ->
                         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(document.place_url)))
                     }
                     .show()
             }
 
+            // 양방향 데이터바인딩 테스트용
             setOnMarkerClickListener {
                 val document = it.tag as Document
                 viewModel.setInputKeywordText(document.place_name)
@@ -92,7 +96,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun setupMapFragment() {
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
+            .findFragmentById(R.id.fg_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
 
@@ -113,7 +117,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onBackPressed() {
-        val currentFragment = supportFragmentManager.findFragmentById(R.id.bottomSheet)
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.cl_bottom_sheet)
         if (currentFragment is BottomSheetFragment) {
             currentFragment.sheetBehavior?.let {
                 if (it.state == BottomSheetBehavior.STATE_EXPANDED) {

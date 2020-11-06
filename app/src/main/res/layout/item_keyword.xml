@@ -14,7 +14,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clSearchResultItem"
+        android:id="@+id/cl_search_result_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="5dp"
@@ -24,7 +24,7 @@
 
         <TextView
             style="@style/Heading5"
-            android:id="@+id/tvItemPlaceName"
+            android:id="@+id/tv_item_place_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="start"
@@ -37,19 +37,19 @@
 
         <TextView
             style="@style/Text2"
-            android:id="@+id/tvItemAddressType"
+            android:id="@+id/tv_item_address_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:textColor="@color/dark_4_868e96"
             android:text="@{item.road_address_name.empty ? @string/type_region_address : @string/type_road_address}"
             tools:text="[type]"
-            app:layout_constraintTop_toBottomOf="@+id/tvItemPlaceName"
+            app:layout_constraintTop_toBottomOf="@+id/tv_item_place_name"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             style="@style/Text2"
-            android:id="@+id/tvItemAddressName"
+            android:id="@+id/tv_item_address_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -57,8 +57,8 @@
             android:textColor="@color/dark_4_868e96"
             android:text="@{item.road_address_name.empty ? item.address_name : item.road_address_name}"
             tools:text="address name"
-            app:layout_constraintTop_toTopOf="@+id/tvItemAddressType"
-            app:layout_constraintStart_toEndOf="@+id/tvItemAddressType"
+            app:layout_constraintTop_toTopOf="@+id/tv_item_address_type"
+            app:layout_constraintStart_toEndOf="@+id/tv_item_address_type"
             app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
